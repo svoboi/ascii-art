@@ -1,6 +1,5 @@
 package MainTest
 
-import Main.Foos
 import org.scalatest.FunSuite
 
 
