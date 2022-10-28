@@ -6,8 +6,8 @@ The idea of this project is to load images, translate them into ASCII ART images
 
 ## How to do it
 
-1. **The your repository private**
+1. **Make your repository private**
 2. **Read [the instructions](https://courses.fit.cvut.cz/BI-OOP/projects/ASCII-art.html)**
-3. Play [lofi hip hop radio](https://www.youtube.com/watch?v=5qap5aO4i9A)
+3. Play [lofi hip hop radio](https://www.youtube.com/watch?v=jfKfPfyJRdk)
 4. [???](https://www.youtube.com/watch?v=ZXsQAXx_ao0)
 5. Profit
