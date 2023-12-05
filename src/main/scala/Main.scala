@@ -1,6 +1,7 @@
 package Main
 
 import exporters.ASCII.StdOutputASCIIExporter
+import models.SymbolASCIIArt
 import transformers.ASCIIFilters.{AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
 import transformers.{LinearNumberToSymbolTransformer, NumberASCIITransformer, NumberToSymbolASCIIArt}
 
@@ -26,11 +27,12 @@ object Main extends App {
   val invertedArt = invertASCIITransformer.transform(flippedArt)
   val brighterArt = brightnessFilter.transform(invertedArt)
 
-  val originalArt = symbolASCIITransformer.transform(transformedArt)
   val finalArt = symbolASCIITransformer.transform(brighterArt)
 
   val streamExporter = new StdOutputASCIIExporter
-  streamExporter.export(originalArt)
-  streamExporter.export(finalArt)
+
+  val symbolASCIIArt = new SymbolASCIIArt(finalArt.pixels)
+  
+  streamExporter.export(symbolASCIIArt)
 
 }

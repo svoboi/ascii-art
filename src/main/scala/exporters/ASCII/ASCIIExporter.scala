@@ -1,8 +1,8 @@
 package exporters.ASCII
 
 import exporters.Exporter
-import models.SymbolASCIIArt
+import models.Image
 
-trait ASCIIExporter extends Exporter[SymbolASCIIArt]{
+trait ASCIIExporter extends Exporter[Image[Char]]{
 
 }

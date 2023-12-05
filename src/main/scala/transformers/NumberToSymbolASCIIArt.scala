@@ -1,8 +1,8 @@
 package transformers
 
-import models.{NumberASCIIArt, SymbolASCIIArt}
+import models.{Image, SymbolASCIIArt}
 
-class NumberToSymbolASCIIArt(numberToCharTransformer: NumberToCharTransformer) extends Transformer[NumberASCIIArt, SymbolASCIIArt] {
+class NumberToSymbolASCIIArt(numberToCharTransformer: NumberToCharTransformer) extends Transformer[Image[Double], Image[Char]] {
   def transformTable(table: List[List[Double]]): List[List[Char]] = {
     if (table == List.empty) {
       return List.empty
@@ -10,7 +10,7 @@ class NumberToSymbolASCIIArt(numberToCharTransformer: NumberToCharTransformer) e
     table.head.map((pixel: Double) => numberToCharTransformer.transform(pixel)) +: transformTable(table.tail)
   }
 
-  override def transform(image: NumberASCIIArt): SymbolASCIIArt = {
+  override def transform(image: Image[Double]): Image[Char] = {
     new SymbolASCIIArt(transformTable(image.pixels))
   }
 

@@ -1,13 +1,13 @@
 package exporters.ASCII
 
-import models.SymbolASCIIArt
+import models.Image
 
 import java.io.OutputStream
 
 class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {
   private var closed = false
 
-  protected def exportToStream(art: SymbolASCIIArt): Unit = {
+  protected def exportToStream(art: Image[Char]): Unit = {
     if (closed)
       throw new Exception("The stream is already closed")
 
@@ -20,8 +20,6 @@ class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {
     outputStream.flush()
   }
 
-
-
   def close(): Unit = {
     if (closed)
       return
@@ -30,7 +28,7 @@ class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {
     closed = true
   }
 
-  override def export(art: SymbolASCIIArt): Unit = {
+  override def export(art: Image[Char]): Unit = {
     exportToStream(art)
   }
 }
