@@ -12,9 +12,8 @@ class NumberASCIITransformer extends Transformer[BufferedImage, NumberASCIIArt] 
       return List.empty
     }
     val pixelColor: Color = new Color(image.getRGB(x, y))
-    val gValue: Double = pixelColor.getRed.toDouble * 0.3 + pixelColor.getBlue.toDouble * 0.59 + pixelColor.getGreen.toDouble * 0.11
+    val gValue: Double = 255 - (pixelColor.getRed.toDouble * 0.3 + pixelColor.getBlue.toDouble * 0.59 + pixelColor.getGreen.toDouble * 0.11)
     gValue +: transformLine(image, x + 1, y)
-    //    numberToCharTransformer.transform(gValue) +: transformLine(image, x + 1, y)
   }
 
   def transformTable(image: BufferedImage, x: Int, y: Int): List[List[Double]] = {

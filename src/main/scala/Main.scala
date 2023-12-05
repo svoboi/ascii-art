@@ -4,12 +4,13 @@ import exporters.ASCII.StdOutputASCIIExporter
 import transformers.ASCIIFilters.{AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
 import transformers.{LinearNumberToSymbolTransformer, NumberASCIITransformer, NumberToSymbolASCIIArt}
 
+import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
 object Main extends App {
   val imagePath = "exampleSMALLER.png"
-  val myPicture = ImageIO.read(new File(imagePath))
+  val myPicture : BufferedImage = ImageIO.read(new File(imagePath))
 
   val tablelist: Array[Char] = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
   val linearTransformer: LinearNumberToSymbolTransformer = new LinearNumberToSymbolTransformer(tablelist)
@@ -25,9 +26,11 @@ object Main extends App {
   val invertedArt = invertASCIITransformer.transform(flippedArt)
   val brighterArt = brightnessFilter.transform(invertedArt)
 
+  val originalArt = symbolASCIITransformer.transform(transformedArt)
   val finalArt = symbolASCIITransformer.transform(brighterArt)
 
   val streamExporter = new StdOutputASCIIExporter
+  streamExporter.export(originalArt)
   streamExporter.export(finalArt)
 
 }
