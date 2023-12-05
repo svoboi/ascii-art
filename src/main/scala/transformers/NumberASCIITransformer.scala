@@ -1,11 +1,11 @@
 package transformers
 
-import models.NumberASCIIArt
+import models.NumberPixelsImage
 
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class NumberASCIITransformer extends Transformer[BufferedImage, NumberASCIIArt] {
+class NumberASCIITransformer extends Transformer[BufferedImage, NumberPixelsImage] {
 
   def transformLine(image: BufferedImage, x: Int, y: Int): List[Double] = {
     if (x == image.getWidth) {
@@ -23,7 +23,7 @@ class NumberASCIITransformer extends Transformer[BufferedImage, NumberASCIIArt] 
     transformLine(image, 0, y) +: transformTable(image, 0, y + 1)
   }
 
-  override def transform(image: BufferedImage): NumberASCIIArt = {
-    new NumberASCIIArt(transformTable(image, 0, 0))
+  override def transform(image: BufferedImage): NumberPixelsImage = {
+    new NumberPixelsImage(transformTable(image, 0, 0))
   }
 }

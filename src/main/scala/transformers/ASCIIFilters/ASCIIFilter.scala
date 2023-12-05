@@ -1,8 +1,8 @@
 package transformers.ASCIIFilters
 
-import models.NumberASCIIArt
+import models.NumberPixelsImage
 import transformers.Transformer
 
-trait ASCIIFilter extends Transformer[NumberASCIIArt, NumberASCIIArt] {
+trait ASCIIFilter extends Transformer[NumberPixelsImage, NumberPixelsImage] {
 
 }
