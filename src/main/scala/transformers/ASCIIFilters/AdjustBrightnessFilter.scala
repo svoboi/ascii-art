@@ -1,6 +1,6 @@
 package transformers.ASCIIFilters
 
-import models.{Image, NumberASCIIArt}
+import models.NumberASCIIArt
 
 class AdjustBrightnessFilter(amount: Int) extends ASCIIFilter {
   def brightnessChange(pixel: Double): Double = {
@@ -17,7 +17,7 @@ class AdjustBrightnessFilter(amount: Int) extends ASCIIFilter {
     pixels.map(brightnessChange)
   }
 
-  override def transform(art: Image[Double]): Image[Double] = {
-    new NumberASCIIArt(art.pixels.map(adjustTable))
+  override def transform(art: NumberASCIIArt): NumberASCIIArt = {
+    new NumberASCIIArt(art.getPixels().map(adjustTable))
   }
 }

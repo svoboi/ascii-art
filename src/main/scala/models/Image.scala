@@ -1,5 +1,5 @@
 package models
 
 trait Image[T] {
-  def pixels: List[List[T]]
+  protected val pixels: List[List[T]]
 }
