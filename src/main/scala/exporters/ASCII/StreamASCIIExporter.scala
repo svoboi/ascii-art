@@ -11,7 +11,7 @@ class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {
     if (closed)
       throw new Exception("The stream is already closed")
 
-    for (el <- art.pixels) {
+    for (el <- art.getPixels()) {
       for (letter <- el) {
         outputStream.write(letter)
       }
