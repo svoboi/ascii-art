@@ -13,7 +13,7 @@ class AdjustBrightnessFilter(amount: Int) extends ASCIIFilter {
     pixel - amount
   }
 
-  def adjustTable(pixels: List[Double]): List[Double] = {
+  def adjustTable(pixels: Seq[Double]): Seq[Double] = {
     pixels.map(brightnessChange)
   }
 

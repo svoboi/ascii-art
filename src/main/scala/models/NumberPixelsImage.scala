@@ -1,7 +1,7 @@
 package models
 
-class NumberPixelsImage(protected val pixels: List[List[Double]]) extends Image[Double] {
-  def getPixels(): List[List[Double]] = {
+class NumberPixelsImage(protected val pixels: Seq[Seq[Double]]) extends Image[Double] {
+  def getPixels(): Seq[Seq[Double]] = {
     pixels
   }
 }

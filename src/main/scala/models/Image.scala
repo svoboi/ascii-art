@@ -1,8 +1,8 @@
 package models
 
 trait Image[T] {
-  protected val pixels: List[List[T]]
+  protected val pixels: Seq[Seq[T]]
 
-  def getPixels(): List[List[T]]
+  def getPixels(): Seq[Seq[T]]
 
 }
