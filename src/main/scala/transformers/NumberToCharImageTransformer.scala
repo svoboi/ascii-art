@@ -2,7 +2,7 @@ package transformers
 
 import models.{CharPixelsImage, NumberPixelsImage}
 
-class NumberToSymbolASCIIArt(numberToCharTransformer: NumberToCharTransformer) extends Transformer[NumberPixelsImage, CharPixelsImage] {
+class NumberToCharImageTransformer(numberToCharTransformer: NumberToCharTransformer) extends Transformer[NumberPixelsImage, CharPixelsImage] {
   def transformTable(table: Seq[Seq[Double]]): Seq[Seq[Char]] = {
     if (table == List.empty) {
       return List.empty

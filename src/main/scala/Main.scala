@@ -2,7 +2,7 @@ package Main
 
 import exporters.ASCII.StdOutputASCIIExporter
 import transformers.ASCIIFilters.{AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
-import transformers.{LinearNumberToSymbolTransformer, NumberASCIITransformer, NumberToSymbolASCIIArt}
+import transformers.{LinearNumberToSymbolTransformer, BufferedImageToNumberImageTransformer, NumberToCharImageTransformer}
 
 import java.awt.image.BufferedImage
 import java.io.File
@@ -14,8 +14,8 @@ object Main extends App {
 
   val tablelist: Array[Char] = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
   val linearTransformer: LinearNumberToSymbolTransformer = new LinearNumberToSymbolTransformer(tablelist)
-  val numberASCIITransformer: NumberASCIITransformer = new NumberASCIITransformer
-  val symbolASCIITransformer: NumberToSymbolASCIIArt = new NumberToSymbolASCIIArt(linearTransformer)
+  val numberASCIITransformer: BufferedImageToNumberImageTransformer = new BufferedImageToNumberImageTransformer
+  val symbolASCIITransformer: NumberToCharImageTransformer = new NumberToCharImageTransformer(linearTransformer)
   val invertASCIITransformer: InvertASCIIFilter = new InvertASCIIFilter
   val brightnessFilter: AdjustBrightnessFilter = new AdjustBrightnessFilter(5)
 
