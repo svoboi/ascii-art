@@ -2,7 +2,7 @@ package Main
 
 import exporters.ASCII.StdOutputASCIIExporter
 import transformers.ASCIIFilters.{AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
-import transformers.{LinearNumberToSymbolTransformer, BufferedImageToNumberImageTransformer, NumberToCharImageTransformer}
+import transformers.{BufferedImageToNumberImageTransformer, LinearNumberToSymbolTransformer, NumberToCharImageTransformer}
 
 import java.awt.image.BufferedImage
 import java.io.File
@@ -30,6 +30,7 @@ object Main extends App {
 
   val streamExporter = new StdOutputASCIIExporter
 
-  streamExporter.export(finalArt)
+//  streamExporter.export(finalArt)
+
 
 }
