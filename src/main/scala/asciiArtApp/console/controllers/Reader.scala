@@ -1,4 +1,4 @@
-package controller
+package asciiArtApp.console.controllers
 
 class Reader(
               private var registeredArguments: scala.collection.mutable.Map[String, (Int, List[String] => Argument)],

@@ -1,7 +1,6 @@
 package exporters.ASCII
 
-import models.Image
-
+import asciiArtApp.models.Image
 import java.io.OutputStream
 
 class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {

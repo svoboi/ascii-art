@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class ImageImporter extends Importer[String, BufferedImage]{
-  override def importFunc(source: String): BufferedImage = {
+class ImageImporter(protected val source: String) extends ImporterFromSource[String, BufferedImage]{
+  override def importFunc(): BufferedImage = {
     ImageIO.read(new File(source));
   }
 }

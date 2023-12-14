@@ -1,6 +1,6 @@
 package transformers.ASCIIFilters
 
-import models.NumberPixelsImage
+import asciiArtApp.models.NumberPixelsImage
 
 class AdjustBrightnessFilter(amount: Int) extends ASCIIFilter {
   def brightnessChange(pixel: Double): Double = {

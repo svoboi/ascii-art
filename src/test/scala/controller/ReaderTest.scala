@@ -1,5 +1,6 @@
 package controller
 
+import asciiArtApp.console.controllers.{Argument, ArgumentWithStringParameter, ArgumentWithoutParameter, Reader}
 import org.scalatest.FunSuite
 
 class ReaderTest extends FunSuite {

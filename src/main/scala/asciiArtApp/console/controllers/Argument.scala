@@ -1,4 +1,4 @@
-package controller
+package asciiArtApp.console.controllers
 
 trait Argument {
   val argumentCategory: String;

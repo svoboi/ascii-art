@@ -1,6 +1,6 @@
 package transformers.ASCIIFilters
 
-import models.NumberPixelsImage
+import asciiArtApp.models.NumberPixelsImage
 import transformers.Transformer
 
 trait ASCIIFilter extends Transformer[NumberPixelsImage, NumberPixelsImage] {

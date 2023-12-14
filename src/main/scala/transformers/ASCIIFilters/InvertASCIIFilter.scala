@@ -1,6 +1,6 @@
 package transformers.ASCIIFilters
 
-import models.NumberPixelsImage
+import asciiArtApp.models.NumberPixelsImage
 
 class InvertASCIIFilter extends ASCIIFilter {
   def invertLine(pixels: Seq[Double]): Seq[Double] = {

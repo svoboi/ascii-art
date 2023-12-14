@@ -1,7 +1,6 @@
 package transformers
 
-import models.NumberPixelsImage
-
+import asciiArtApp.models.NumberPixelsImage
 import java.awt.Color
 import java.awt.image.BufferedImage
 

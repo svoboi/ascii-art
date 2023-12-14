@@ -1,5 +1,5 @@
 package importers
 
-trait Importer[S, T] {
-  def importFunc(source: S): T
+trait Importer[T] {
+  def importFunc(): T
 }

@@ -1,6 +1,6 @@
 package transformers.ASCIIFilters
 
-import models.NumberPixelsImage
+import asciiArtApp.models.NumberPixelsImage
 
 class FlipASCIIFilter(direction: Char) extends ASCIIFilter {
   override def transform(art: NumberPixelsImage): NumberPixelsImage = {

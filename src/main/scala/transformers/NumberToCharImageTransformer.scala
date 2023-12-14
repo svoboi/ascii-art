@@ -1,6 +1,6 @@
 package transformers
 
-import models.{CharPixelsImage, NumberPixelsImage}
+import asciiArtApp.models.{CharPixelsImage, NumberPixelsImage}
 
 class NumberToCharImageTransformer(numberToCharTransformer: NumberToCharTransformer) extends Transformer[NumberPixelsImage, CharPixelsImage] {
   def transformTable(table: Seq[Seq[Double]]): Seq[Seq[Char]] = {
