@@ -1,12 +1,14 @@
 package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.Controller
+import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
 import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
 import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
 import transformers.pixelToCharTransformers.{HigherMiddleContrastGrayscalePixelToCharTransformer, LinearGrayscalePixelToCharTransformer}
 import transformers.{BufferedImageToNumberImageTransformer, NumberToCharImageTransformer, NumberToCharTransformer}
 
 import java.awt.image.BufferedImage
+import java.io.File
 
 class ConsoleView(protected val controller: Controller) {
 
@@ -129,6 +131,18 @@ class ConsoleView(protected val controller: Controller) {
     }
   }
 
+  def findExporters(groupedArguments: List[ArgumentWithStringParameters]): Seq[ASCIIExporter] = {
+    var exporters: Seq[ASCIIExporter] = List.empty
+    for (argument <- groupedArguments) {
+      argument.name match {
+        case "output-console" => exporters = exporters.appended(new StdOutputASCIIExporter)
+        case "output-file" => exporters = exporters.appended(new FileOutputASCIIExporter(new File(argument.parameters.head)))
+        case _ => {}
+      }
+    }
+    exporters;
+  }
+
   def run(arguments: List[String]): Unit = {
     // pridat try-catch
     // zkontrolovat, jestli nevolaji jen help
@@ -139,6 +153,6 @@ class ConsoleView(protected val controller: Controller) {
     val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
     val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
     val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
-    //    val exporters: Seq[Exporter[BufferedImage]] = findExporters(groupedArguments)
+    val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
   }
 }

@@ -1,4 +1,4 @@
-package transformers.PixelToCharTransformer
+package transformers.pixelToCharTransformers
 
 import transformers.NumberToCharTransformer
 

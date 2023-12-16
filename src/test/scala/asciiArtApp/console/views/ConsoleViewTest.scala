@@ -1,6 +1,7 @@
 package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.ConsoleController
+import exporters.ASCII.ASCIIExporter
 import importers.Importer
 import org.scalatest.FunSuite
 import transformers.ASCIIFilters.ASCIIFilter
@@ -94,5 +95,16 @@ class ConsoleViewTest extends FunSuite {
     assertThrows[Exception] {
       consoleView.findNumberToCharTransformer(groupedArguments);
     }
+  }
+
+  test("Find exporters") {
+    val groupedArguments: List[ArgumentWithStringParameters] = List(
+      new ArgumentWithStringParameters("output-console", List.empty),
+      new ArgumentWithStringParameters("output-file", List("exampleSMALLER.png")),
+      new ArgumentWithStringParameters("invert", List.empty),
+    )
+    val exporters: Seq[ASCIIExporter] = consoleView.findExporters(groupedArguments);
+    assert(exporters.head.getClass.getSimpleName == "StdOutputASCIIExporter")
+    assert(exporters.tail.head.getClass.getSimpleName == "FileOutputASCIIExporter")
   }
 }
