@@ -3,7 +3,8 @@ package asciiArtApp.console.views
 import asciiArtApp.console.controllers.Controller
 import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
 import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
-import transformers.BufferedImageToNumberImageTransformer
+import transformers.pixelToCharTransformers.{HigherMiddleContrastGrayscalePixelToCharTransformer, LinearGrayscalePixelToCharTransformer}
+import transformers.{BufferedImageToNumberImageTransformer, NumberToCharImageTransformer, NumberToCharTransformer}
 
 import java.awt.image.BufferedImage
 
@@ -78,16 +79,54 @@ class ConsoleView(protected val controller: Controller) {
           try {
             argument.parameters.head.toInt
           }
-          catch  {
+          catch {
             case e: NumberFormatException => throw new Exception("Filter '--brightness' requires a number parameter.")
           }
           filters = filters.appended(new AdjustBrightnessFilter(argument.parameters.head.toInt))
-        } case "flip" => filters = filters.appended(new FlipASCIIFilter(argument.parameters.head.head))
+        }
+        case "flip" => filters = filters.appended(new FlipASCIIFilter(argument.parameters.head.head))
         case "invert" => filters = filters.appended(new InvertASCIIFilter())
         case _ => {}
       }
     }
     filters;
+  }
+
+  def findNumberToCharTransformer(groupedArguments: List[ArgumentWithStringParameters]): NumberToCharTransformer = {
+    var numberToCharTransformersList: List[NumberToCharTransformer] = List.empty;
+    for (argument <- groupedArguments) {
+      (argument.name, argument.parameters) match {
+        case ("table", List("bourke-small")) =>
+          numberToCharTransformersList = numberToCharTransformersList.appended(
+            new LinearGrayscalePixelToCharTransformer(" .:-=+*#%@".toCharArray)
+          )
+        case ("table", List("bourke-standard")) =>
+          numberToCharTransformersList = numberToCharTransformersList.appended(
+            new LinearGrayscalePixelToCharTransformer(
+              " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
+            ))
+        case ("table", List("non-linear")) =>
+          numberToCharTransformersList = numberToCharTransformersList.appended(
+            new HigherMiddleContrastGrayscalePixelToCharTransformer)
+        case ("custom-table", List(table: String)) =>
+          numberToCharTransformersList = numberToCharTransformersList.appended(
+            new LinearGrayscalePixelToCharTransformer(
+              table.toCharArray
+            ))
+        case _ => {}
+      }
+    }
+    if (numberToCharTransformersList.length == 1) {
+      return numberToCharTransformersList.head
+    }
+    if (numberToCharTransformersList.isEmpty) {
+      return new LinearGrayscalePixelToCharTransformer(
+        " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
+      )
+    }
+    else {
+      throw new Exception("Application takes one or none table arguments, either '--custom-table' or '--table'.")
+    }
   }
 
   def run(arguments: List[String]): Unit = {
@@ -98,8 +137,8 @@ class ConsoleView(protected val controller: Controller) {
     val importers: Importer[BufferedImage] = findImporters(groupedArguments);
     val bufferedImageToNumberImageTransformer = new BufferedImageToNumberImageTransformer;
     val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
-//    val table: Option[NumberToCharTransformer] = findNumberToCharTransformer(groupedArguments)
-//    //tady capnout nebo vyrobit numbertochartransformer, vyrobit numberimagetocharimage
-//    val exporters: Seq[Exporter[BufferedImage]] = findExporters(groupedArguments)
+    val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
+    val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
+    //    val exporters: Seq[Exporter[BufferedImage]] = findExporters(groupedArguments)
   }
 }

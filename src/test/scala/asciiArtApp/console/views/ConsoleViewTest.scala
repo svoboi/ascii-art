@@ -4,6 +4,7 @@ import asciiArtApp.console.controllers.ConsoleController
 import importers.Importer
 import org.scalatest.FunSuite
 import transformers.ASCIIFilters.ASCIIFilter
+import transformers.NumberToCharTransformer
 
 import java.awt.image.BufferedImage
 
@@ -76,4 +77,22 @@ class ConsoleViewTest extends FunSuite {
     }
   }
 
+  test("Find numberToCharTransformer") {
+    val groupedArguments: List[ArgumentWithStringParameters] = List(
+      new ArgumentWithStringParameters("table", List("bourke-small")),
+      new ArgumentWithStringParameters("invert", List.empty),
+    )
+    val numberToCharTransformer: NumberToCharTransformer = consoleView.findNumberToCharTransformer(groupedArguments);
+    assert(numberToCharTransformer.getClass.getSimpleName == "LinearGrayscalePixelToCharTransformer")
+  }
+
+  test("Two table arguments") {
+    val groupedArguments: List[ArgumentWithStringParameters] = List(
+      new ArgumentWithStringParameters("table", List("bourke-small")),
+      new ArgumentWithStringParameters("table", List("bourke-small")),
+    )
+    assertThrows[Exception] {
+      consoleView.findNumberToCharTransformer(groupedArguments);
+    }
+  }
 }
