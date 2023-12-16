@@ -148,11 +148,17 @@ class ConsoleView(protected val controller: Controller) {
     // zkontrolovat, jestli nevolaji jen help
     val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
     checkArgumentListValidity(groupedArguments);
-    val importers: Importer[BufferedImage] = findImporters(groupedArguments);
+    val importer: Importer[BufferedImage] = findImporters(groupedArguments);
     val bufferedImageToNumberImageTransformer = new BufferedImageToNumberImageTransformer;
     val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
     val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
     val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
     val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
+    controller.importFilterExport(
+      importer,
+      bufferedImageToNumberImageTransformer,
+      filters,
+      numberToCharImageTransformer,
+      exporters);
   }
 }
