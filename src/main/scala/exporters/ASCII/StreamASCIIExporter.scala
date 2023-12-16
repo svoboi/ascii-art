@@ -27,7 +27,7 @@ class StreamASCIIExporter (outputStream: OutputStream) extends ASCIIExporter {
     closed = true
   }
 
-  override def export(art: Image[Char]): Unit = {
+  override def exportFunc(art: Image[Char]): Unit = {
     exportToStream(art)
   }
 }

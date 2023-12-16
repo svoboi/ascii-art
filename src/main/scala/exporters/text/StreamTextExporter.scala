@@ -22,5 +22,5 @@ class StreamTextExporter(outputStream: OutputStream) extends TextExporter {
     closed = true
   }
 
-  override def export(item: String): Unit = exportToStream(item)
+  override def exportFunc(item: String): Unit = exportToStream(item)
 }
