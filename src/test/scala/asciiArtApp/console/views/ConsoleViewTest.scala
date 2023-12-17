@@ -2,6 +2,7 @@ package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.ConsoleController
 import exporters.ASCII.ASCIIExporter
+import exporters.text.StdOutputTextExporter
 import importers.Importer
 import org.scalatest.FunSuite
 import transformers.ASCIIFilters.ASCIIFilter
@@ -10,7 +11,7 @@ import transformers.NumberToCharTransformer
 import java.awt.image.BufferedImage
 
 class ConsoleViewTest extends FunSuite {
-  val consoleView: ConsoleView = new ConsoleView(new ConsoleController)
+  val consoleView: ConsoleView = new ConsoleView(new ConsoleController, new StdOutputTextExporter)
 
   test("Grouping arguments") {
     val arguments = List("--image", "exampleSMALLER.png", "--invert")

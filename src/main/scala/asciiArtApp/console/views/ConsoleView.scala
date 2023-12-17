@@ -2,6 +2,7 @@ package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.Controller
 import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
+import exporters.text.TextExporter
 import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
 import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
 import transformers.pixelToCharTransformers.{HigherMiddleContrastGrayscalePixelToCharTransformer, LinearGrayscalePixelToCharTransformer}
@@ -10,7 +11,7 @@ import transformers.{BufferedImageToNumberImageTransformer, NumberToCharImageTra
 import java.awt.image.BufferedImage
 import java.io.File
 
-class ConsoleView(protected val controller: Controller) {
+class ConsoleView(protected val controller: Controller, protected val stdOutputExporter: TextExporter) {
 
   val registeredCategories: Map[String, Map[String, Int]] = Map(
     ("import", Map(
@@ -32,10 +33,10 @@ class ConsoleView(protected val controller: Controller) {
     val registeredArguments = registeredCategories.values.flatten.toMap
     for (argument <- groupedArguments) {
       if (!registeredArguments.contains(argument.name)) {
-        throw new Exception("Argument " + argument.name + " is not recognized.")
+        throw new Exception("Argument '" + argument.name + "' is not recognized.")
       }
       if (registeredArguments(argument.name) != argument.parameters.length) {
-        throw new Exception("Argument " + argument.name + " takes " + registeredArguments(argument.name) + " arguments.")
+        throw new Exception("Argument '" + argument.name + "' takes " + registeredArguments(argument.name) + " parameter(s).")
       }
     }
   }
@@ -143,22 +144,29 @@ class ConsoleView(protected val controller: Controller) {
     exporters;
   }
 
+  def showError(message: String): Unit = {
+    stdOutputExporter.exportFunc(message + "\n");
+  }
+
   def run(arguments: List[String]): Unit = {
-    // pridat try-catch
-    // zkontrolovat, jestli nevolaji jen help
-    val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
-    checkArgumentListValidity(groupedArguments);
-    val importer: Importer[BufferedImage] = findImporters(groupedArguments);
-    val bufferedImageToNumberImageTransformer = new BufferedImageToNumberImageTransformer;
-    val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
-    val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
-    val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
-    val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
-    controller.importFilterExport(
-      importer,
-      bufferedImageToNumberImageTransformer,
-      filters,
-      numberToCharImageTransformer,
-      exporters);
+    try {
+      val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
+      checkArgumentListValidity(groupedArguments);
+      val importer: Importer[BufferedImage] = findImporters(groupedArguments);
+      val bufferedImageToNumberImageTransformer = new BufferedImageToNumberImageTransformer;
+      val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
+      val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
+      val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
+      val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
+      controller.importFilterExport(
+        importer,
+        bufferedImageToNumberImageTransformer,
+        filters,
+        numberToCharImageTransformer,
+        exporters);
+    }
+    catch {
+      case e : Exception => showError(e.getMessage)
+    }
   }
 }
