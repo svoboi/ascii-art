@@ -2,6 +2,8 @@ package exporters.text
 
 import java.io.OutputStream
 
+//source: Martin Drozdik, CTU class OOP, labs
+
 class StreamTextExporter(outputStream: OutputStream) extends TextExporter {
   private var closed = false
 

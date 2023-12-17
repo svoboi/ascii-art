@@ -1,5 +1,7 @@
 package exporters
 
+//source: Martin Drozdik, CTU class OOP, labs
+
 trait Exporter[T] {
   /**
    * Exports something somewhere
