@@ -6,8 +6,8 @@ class LinearGrayscalePixelToCharTransformer(charactersTable: Array[Char]) extend
   private val boxSize: Double = 255.0 / (charactersTable.length)
 
   override def transform(number: Double): Char = {
-    if (number == 255.0) {
-      charactersTable.charAt(charactersTable.length-1)
+    if ((number / boxSize).floor.toInt >= charactersTable.length) {
+      return charactersTable.charAt(charactersTable.length-1)
     }
     charactersTable.charAt((number / boxSize).floor.toInt)
   }
