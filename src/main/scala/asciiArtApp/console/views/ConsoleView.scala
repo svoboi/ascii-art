@@ -10,6 +10,7 @@ import transformers.{BufferedImageToNumberImageTransformer, NumberToCharImageTra
 
 import java.awt.image.BufferedImage
 import java.io.File
+import javax.imageio.ImageIO
 
 class ConsoleView(protected val controller: Controller, protected val stdOutputExporter: TextExporter) {
 
@@ -64,7 +65,11 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     for (argument <- groupedArguments) {
       argument.name match {
         case "image-random" => importers = importers.appended(new BufferedImageGenerator)
-        case "image" => importers = importers.appended(new ImageImporterFromFile(argument.parameters.head))
+        case "image" => {
+          val importer = new ImageImporterFromFile(argument.parameters.head)
+          importer.registerExtensions(ImageIO.getReaderFileSuffixes, ImageIO.read)
+          importers = importers.appended(importer)
+        }
         case _ => {}
       }
     }
@@ -149,7 +154,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
   }
 
   def run(arguments: List[String]): Unit = {
-    try {
+//    try {
       val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
       checkArgumentListValidity(groupedArguments);
       val importer: Importer[BufferedImage] = findImporters(groupedArguments);
@@ -164,9 +169,9 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
         filters,
         numberToCharImageTransformer,
         exporters);
-    }
-    catch {
-      case e : Exception => showError(e.getMessage)
-    }
+//    }
+//    catch {
+//      case e : Exception => showError(e.getMessage)
+//    }
   }
 }
