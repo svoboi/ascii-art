@@ -154,7 +154,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
   }
 
   def run(arguments: List[String]): Unit = {
-//    try {
+    try {
       val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
       checkArgumentListValidity(groupedArguments);
       val importer: Importer[BufferedImage] = findImporters(groupedArguments);
@@ -169,9 +169,9 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
         filters,
         numberToCharImageTransformer,
         exporters);
-//    }
-//    catch {
-//      case e : Exception => showError(e.getMessage)
-//    }
+    }
+    catch {
+      case e : Exception => showError(e.getMessage)
+    }
   }
 }
