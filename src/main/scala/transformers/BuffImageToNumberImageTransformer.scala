@@ -4,7 +4,7 @@ import asciiArtApp.models.NumberPixelsImage
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class BufferedImageToNumberImageTransformer extends Transformer[BufferedImage, NumberPixelsImage] {
+class BuffImageToNumberImageTransformer extends Transformer[BufferedImage, NumberPixelsImage] {
 
   def transformLine(image: BufferedImage, x: Int, y: Int): List[Double] = {
     if (x == image.getWidth) {
