@@ -5,8 +5,8 @@ import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIEx
 import exporters.text.TextExporter
 import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
 import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, Axis, FlipASCIIFilter, InvertASCIIFilter}
-import transformers.pixelToCharTransformers.{HigherContrastPixelToCharTransformer, LinearPixelToCharTransformer}
-import transformers.{BuffImageToNumberImageTransformer, NumberToCharImageTransformer, NumberToCharTransformer}
+import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscalePixelToCharTransformer, LinearGreyscalePixelToCharTransformer}
+import transformers.{BuffImageToNumberImageTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer}
 
 import java.awt.image.BufferedImage
 import java.io.File
@@ -114,19 +114,19 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
       (argument.name, argument.parameters) match {
         case ("table", List("bourke-small")) =>
           numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearPixelToCharTransformer(" .:-=+*#%@".toCharArray)
+            new LinearGreyscalePixelToCharTransformer(" .:-=+*#%@".toCharArray)
           )
         case ("table", List("bourke-standard")) =>
           numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearPixelToCharTransformer(
+            new LinearGreyscalePixelToCharTransformer(
               " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
             ))
         case ("table", List("non-linear")) =>
           numberToCharTransformersList = numberToCharTransformersList.appended(
-            new HigherContrastPixelToCharTransformer)
+            new HigherContrastGreyscalePixelToCharTransformer)
         case ("custom-table", List(table: String)) =>
           numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearPixelToCharTransformer(
+            new LinearGreyscalePixelToCharTransformer(
               table.toCharArray
             ))
         case _ => {}
@@ -136,7 +136,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
       return numberToCharTransformersList.head
     }
     if (numberToCharTransformersList.isEmpty) {
-      return new LinearPixelToCharTransformer(
+      return new LinearGreyscalePixelToCharTransformer(
         " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
       )
     }
@@ -169,7 +169,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
       val bufferedImageToNumberImageTransformer = new BuffImageToNumberImageTransformer;
       val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
       val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
-      val numberToCharImageTransformer = new NumberToCharImageTransformer(numberToCharTransformer)
+      val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformer)
       val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
       controller.importFilterExport(
         importer,

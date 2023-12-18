@@ -1,10 +1,10 @@
 package transformers
 
-import asciiArtApp.models.NumberPixelsImage
+import asciiArtApp.models.GreyScaleImage
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class BuffImageToNumberImageTransformer extends Transformer[BufferedImage, NumberPixelsImage] {
+class BuffImageToNumberImageTransformer extends Transformer[BufferedImage, GreyScaleImage] {
 
   def transformLine(image: BufferedImage, x: Int, y: Int): List[Double] = {
     if (x == image.getWidth) {
@@ -22,7 +22,7 @@ class BuffImageToNumberImageTransformer extends Transformer[BufferedImage, Numbe
     transformLine(image, 0, y) +: transformTable(image, 0, y + 1)
   }
 
-  override def transform(image: BufferedImage): NumberPixelsImage = {
-    new NumberPixelsImage(transformTable(image, 0, 0))
+  override def transform(image: BufferedImage): GreyScaleImage = {
+    new GreyScaleImage(transformTable(image, 0, 0))
   }
 }

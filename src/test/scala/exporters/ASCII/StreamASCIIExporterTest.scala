@@ -1,6 +1,6 @@
 package exporters.text
 
-import asciiArtApp.models.{CharPixelsImage, Image}
+import asciiArtApp.models.{ASCIIImage, Image}
 import exporters.ASCII.StreamASCIIExporter
 import org.scalatest.FunSuite
 
@@ -10,7 +10,7 @@ class StreamASCIIExporterTest extends FunSuite {
   test("Write") {
     val stream = new ByteArrayOutputStream()
     val exporter = new StreamASCIIExporter(stream)
-    val art :Image[Char] = new CharPixelsImage(Seq(Seq('a', 'b', 'c'), Seq('d', 'e')))
+    val art :Image[Char] = new ASCIIImage(Seq(Seq('a', 'b', 'c'), Seq('d', 'e')))
 
     exporter.exportFunc(art)
 

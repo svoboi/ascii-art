@@ -1,8 +1,8 @@
-package transformers.pixelToCharTransformers
+package transformers.OneGreyscalePixelToCharTransformers
 
 import transformers.NumberToCharTransformer
 
-class LinearPixelToCharTransformer(charactersTable: Array[Char]) extends NumberToCharTransformer {
+class LinearGreyscalePixelToCharTransformer(charactersTable: Array[Char]) extends NumberToCharTransformer {
   private val boxSize: Double = 255.0 / (charactersTable.length)
 
   override def transform(number: Double): Char = {

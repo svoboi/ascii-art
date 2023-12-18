@@ -1,8 +1,8 @@
-package transformers.pixelToCharTransformers
+package transformers.OneGreyscalePixelToCharTransformers
 
 import transformers.NumberToCharTransformer
 
-class HigherContrastPixelToCharTransformer extends NumberToCharTransformer{
+class HigherContrastGreyscalePixelToCharTransformer extends NumberToCharTransformer{
   private val charactersTable: Array[Char] = " .:-=+*#%@".toCharArray
   // - 2 for the two characters used on 0-50 and 200-255
   private val boxSize : Double = (200.0 - 50.0) / (charactersTable.length - 2)

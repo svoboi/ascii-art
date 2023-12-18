@@ -3,7 +3,7 @@ package asciiArtApp.console.controllers
 import exporters.ASCII.ASCIIExporter
 import importers.Importer
 import transformers.ASCIIFilters.ASCIIFilter
-import transformers.{BuffImageToNumberImageTransformer, NumberToCharImageTransformer}
+import transformers.{BuffImageToNumberImageTransformer, GreyscaleToASCIIImageTransformer}
 
 import java.awt.image.BufferedImage
 
@@ -12,7 +12,7 @@ trait Controller {
                           importer: Importer[BufferedImage],
                           bufferedImageToNumberImageTransformer: BuffImageToNumberImageTransformer,
                           filters: Seq[ASCIIFilter],
-                          numberToCharImageTransformer: NumberToCharImageTransformer,
+                          numberToCharImageTransformer: GreyscaleToASCIIImageTransformer,
                           exporters: Seq[ASCIIExporter]
                         ): Unit
 }
