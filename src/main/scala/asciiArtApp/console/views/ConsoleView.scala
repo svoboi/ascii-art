@@ -4,7 +4,8 @@ import asciiArtApp.console.controllers.Controller
 import asciiArtApp.models.RGBImage
 import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
 import exporters.text.TextExporter
-import importers.{Importer, RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
+import importers.imageImporters.{RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
+import importers.Importer
 import transformers.ASCIIFilters._
 import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscalePixelToCharTransformer, LinearGreyscalePixelToCharTransformer}
 import transformers.{GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}

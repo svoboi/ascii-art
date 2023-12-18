@@ -1,6 +1,7 @@
-package importers
+package importers.imageImporters
 
 import asciiArtApp.models.{RGBImage, RGBPixel}
+import importers.ImporterFromSource
 
 import java.awt.Color
 import java.awt.image.BufferedImage

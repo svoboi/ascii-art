@@ -1,6 +1,7 @@
-package importers
+package importers.imageImporters
 
 import asciiArtApp.models.{RGBImage, RGBPixel}
+import importers.Importer
 
 class RGBImageGeneratorRandom extends Importer[RGBImage]{
   def importFunc(): RGBImage = {

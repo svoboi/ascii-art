@@ -1,5 +1,6 @@
 package importers
 
+import importers.imageImporters.RGBImageImporterFromJPG
 import org.scalatest.FunSuite
 
 class RGBImageImporterFromJPGTest extends FunSuite {
