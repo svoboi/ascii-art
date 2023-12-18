@@ -4,7 +4,7 @@ import asciiArtApp.console.controllers.Controller
 import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
 import exporters.text.TextExporter
 import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
-import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, FlipASCIIFilter, InvertASCIIFilter}
+import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, Axis, FlipASCIIFilter, InvertASCIIFilter}
 import transformers.pixelToCharTransformers.{HigherContrastPixelToCharTransformer, LinearPixelToCharTransformer}
 import transformers.{BuffImageToNumberImageTransformer, NumberToCharImageTransformer, NumberToCharTransformer}
 
@@ -92,7 +92,15 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
           }
           filters = filters.appended(new AdjustBrightnessFilter(argument.parameters.head.toInt))
         }
-        case "flip" => filters = filters.appended(new FlipASCIIFilter(argument.parameters.head.head))
+        case "flip" => {
+          val axis = try {
+            Axis.withName(argument.parameters.head)
+          }
+          catch {
+            case e: Exception => throw new Exception("This direction of flip is not defined!")
+          }
+          filters = filters.appended(new FlipASCIIFilter(axis))
+        }
         case "invert" => filters = filters.appended(new InvertASCIIFilter())
         case _ => {}
       }
@@ -171,7 +179,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
         exporters);
     }
     catch {
-      case e : Exception => showError(e.getMessage)
+      case e: Exception => showError(e.getMessage)
     }
   }
 }
