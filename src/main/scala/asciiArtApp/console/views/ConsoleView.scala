@@ -1,16 +1,15 @@
 package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.Controller
+import asciiArtApp.models.RGBImage
 import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
 import exporters.text.TextExporter
-import importers.{BufferedImageGenerator, ImageImporterFromFile, Importer}
-import transformers.ASCIIFilters.{ASCIIFilter, AdjustBrightnessFilter, Axis, FlipASCIIFilter, InvertASCIIFilter}
+import importers.{Importer, RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
+import transformers.ASCIIFilters._
 import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscalePixelToCharTransformer, LinearGreyscalePixelToCharTransformer}
-import transformers.{BuffImageToNumberImageTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer}
+import transformers.{GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
 
-import java.awt.image.BufferedImage
 import java.io.File
-import javax.imageio.ImageIO
 
 class ConsoleView(protected val controller: Controller, protected val stdOutputExporter: TextExporter) {
 
@@ -60,15 +59,21 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     return argumentsWithParametersList;
   }
 
-  def findImporters(groupedArguments: List[ArgumentWithStringParameters]): Importer[BufferedImage] = {
-    var importers: List[Importer[BufferedImage]] = List.empty
+  def findImporters(groupedArguments: List[ArgumentWithStringParameters]): Importer[RGBImage] = {
+    var importers: List[Importer[RGBImage]] = List.empty
     for (argument <- groupedArguments) {
       argument.name match {
-        case "image-random" => importers = importers.appended(new BufferedImageGenerator)
+        case "image-random" => importers = importers.appended(new RGBImageGeneratorRandom)
         case "image" => {
-          val importer = new ImageImporterFromFile(argument.parameters.head)
-          importer.registerExtensions(ImageIO.getReaderFileSuffixes, ImageIO.read)
-          importers = importers.appended(importer)
+          if (argument.parameters.head.endsWith("jpg")) {
+            importers = importers.appended(new RGBImageImporterFromJPG(argument.parameters.head))
+          }
+          else if (argument.parameters.head.endsWith("png")) {
+            importers = importers.appended(new RGBImageImporterFromPNG(argument.parameters.head))
+          }
+          else {
+            throw new Exception("Unknown format!")
+          }
         }
         case _ => {}
       }
@@ -165,8 +170,8 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     try {
       val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
       checkArgumentListValidity(groupedArguments);
-      val importer: Importer[BufferedImage] = findImporters(groupedArguments);
-      val bufferedImageToNumberImageTransformer = new BuffImageToNumberImageTransformer;
+      val importer: Importer[RGBImage] = findImporters(groupedArguments);
+      val bufferedImageToNumberImageTransformer = new RGBImageToGreyscaleImage;
       val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
       val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
       val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformer)

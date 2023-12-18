@@ -1,23 +1,22 @@
 package asciiArtApp.console.controllers
 
+import asciiArtApp.models.RGBImage
 import exporters.ASCII.ASCIIExporter
 import importers.Importer
 import transformers.ASCIIFilters.ASCIIFilter
-import transformers.{BuffImageToNumberImageTransformer, GreyscaleToASCIIImageTransformer}
-
-import java.awt.image.BufferedImage
+import transformers.{GreyscaleToASCIIImageTransformer, RGBImageToGreyscaleImage}
 
 class ConsoleController() extends Controller {
 
   def importFilterExport(
-                          importer: Importer[BufferedImage],
-                          bufferedImageToNumberImageTransformer: BuffImageToNumberImageTransformer,
+                          importer: Importer[RGBImage],
+                          rgbImageToNumberImageTransformer: RGBImageToGreyscaleImage,
                           filters: Seq[ASCIIFilter],
                           numberToCharImageTransformer: GreyscaleToASCIIImageTransformer,
                           exporters: Seq[ASCIIExporter]
                         ): Unit = {
     val image = importer.importFunc();
-    var numberImage = bufferedImageToNumberImageTransformer.transform(image);
+    var numberImage = rgbImageToNumberImageTransformer.transform(image);
     for (filter <- filters) {
       numberImage = filter.transform(numberImage);
     }
