@@ -1,5 +1,5 @@
 package asciiArtApp.models
 
-class RGBPixel(val red: Int, val green: Int, val blue: Int) {
+class RGBPixel(val red: Double, val green: Double, val blue: Double) {
 
 }
