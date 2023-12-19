@@ -33,10 +33,10 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     val registeredArguments = registeredCategories.values.flatten.toMap
     for (argument <- groupedArguments) {
       if (!registeredArguments.contains(argument.name)) {
-        throw new Exception("Argument '" + argument.name + "' is not recognized.")
+        throw new IllegalArgumentException("Argument '" + argument.name + "' is not recognized.")
       }
       if (registeredArguments(argument.name) != argument.parameters.length) {
-        throw new Exception("Argument '" + argument.name + "' takes " + registeredArguments(argument.name) + " parameter(s).")
+        throw new IllegalArgumentException("Argument '" + argument.name + "' takes " + registeredArguments(argument.name) + " parameter(s).")
       }
     }
   }
@@ -72,14 +72,14 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
             importers = importers.appended(new RGBImageImporterFromPNG(argument.parameters.head))
           }
           else {
-            throw new Exception("Unknown format!")
+            throw new IllegalArgumentException("Unknown format!")
           }
         }
         case _ => {}
       }
     }
     if (importers.length != 1) {
-      throw new Exception("Application takes exactly one importer argument, either '--image' or '--image-random'.")
+      throw new IllegalArgumentException("Application takes exactly one importer argument, either '--image' or '--image-random'.")
     }
     importers.head;
   }
@@ -93,7 +93,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
             argument.parameters.head.toInt
           }
           catch {
-            case e: NumberFormatException => throw new Exception("Filter '--brightness' requires a number parameter.")
+            case e: NumberFormatException => throw new IllegalArgumentException("Filter '--brightness' requires a number parameter.")
           }
           filters = filters.appended(new AdjustBrightnessFilter(argument.parameters.head.toInt))
         }
@@ -102,7 +102,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
             Axis.withName(argument.parameters.head)
           }
           catch {
-            case e: Exception => throw new Exception("This direction of flip is not defined!")
+            case e: Exception => throw new IllegalArgumentException("This direction of flip is not defined!")
           }
           filters = filters.appended(new FlipASCIIFilter(axis))
         }
@@ -146,7 +146,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
       )
     }
     else {
-      throw new Exception("Application takes one or none table arguments, either '--custom-table' or '--table'.")
+      throw new IllegalArgumentException("Application takes one or none table arguments, either '--custom-table' or '--table'.")
     }
   }
 

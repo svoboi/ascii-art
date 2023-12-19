@@ -41,7 +41,7 @@ trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
 
   override def importFunc(): RGBImage = {
     if (getExtension() != allowedExtension) {
-      throw new Exception("Unknown format.")
+      throw new IllegalArgumentException("Unknown format.")
     }
     val file = new File(source)
     val buffImage = ImageIO.read(file)

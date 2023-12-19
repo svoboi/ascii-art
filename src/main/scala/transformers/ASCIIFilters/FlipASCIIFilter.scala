@@ -9,7 +9,7 @@ class FlipASCIIFilter(direction: FlipAxis) extends ASCIIFilter {
       case X => new GreyScaleImage(art.getPixels().map((pixelLine: Seq[Double]) => pixelLine.reverse))
       case Y => new GreyScaleImage(art.getPixels().reverse)
       case D => new GreyScaleImage(art.getPixels().reverse.map((pixelLine: Seq[Double]) => pixelLine.reverse))
-      case _ => throw new Exception("This direction is not defined!")
+      case _ => throw new IllegalArgumentException("This direction is not defined!")
     }
   }
 }
