@@ -1,10 +1,10 @@
 package asciiArtApp.console.controllers
 
 import asciiArtApp.models.RGBImage
-import exporters.ASCII.ASCIIExporter
+import exporters.text.TextExporter
 import importers.Importer
 import transformers.ASCIIFilters.ASCIIFilter
-import transformers.{GreyscaleToASCIIImageTransformer, RGBImageToGreyscaleImage}
+import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, RGBImageToGreyscaleImage}
 
 trait Controller {
   def importFilterExport(
@@ -12,6 +12,7 @@ trait Controller {
                           rgbImageToNumberImageTransformer: RGBImageToGreyscaleImage,
                           filters: Seq[ASCIIFilter],
                           numberToCharImageTransformer: GreyscaleToASCIIImageTransformer,
-                          exporters: Seq[ASCIIExporter]
+                          asciiImageToStringTransformer: ASCIIImageToStringTransformer,
+                          exporters: Seq[TextExporter]
                         ): Unit
 }

@@ -2,13 +2,12 @@ package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.Controller
 import asciiArtApp.models.RGBImage
-import exporters.ASCII.{ASCIIExporter, FileOutputASCIIExporter, StdOutputASCIIExporter}
-import exporters.text.TextExporter
-import importers.imageImporters.{RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
+import exporters.text.{FileOutputTextExporter, StdOutputTextExporter, TextExporter}
 import importers.Importer
+import importers.imageImporters.{RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
 import transformers.ASCIIFilters._
 import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscalePixelToCharTransformer, LinearGreyscalePixelToCharTransformer}
-import transformers.{GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
+import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
 
 import java.io.File
 
@@ -151,12 +150,12 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     }
   }
 
-  def findExporters(groupedArguments: List[ArgumentWithStringParameters]): Seq[ASCIIExporter] = {
-    var exporters: Seq[ASCIIExporter] = List.empty
+  def findExporters(groupedArguments: List[ArgumentWithStringParameters]): Seq[TextExporter] = {
+    var exporters: Seq[TextExporter] = List.empty
     for (argument <- groupedArguments) {
       argument.name match {
-        case "output-console" => exporters = exporters.appended(new StdOutputASCIIExporter)
-        case "output-file" => exporters = exporters.appended(new FileOutputASCIIExporter(new File(argument.parameters.head)))
+        case "output-console" => exporters = exporters.appended(new StdOutputTextExporter)
+        case "output-file" => exporters = exporters.appended(new FileOutputTextExporter(new File(argument.parameters.head)))
         case _ => {}
       }
     }
@@ -176,12 +175,14 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
       val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
       val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
       val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformer)
-      val exporters: Seq[ASCIIExporter] = findExporters(groupedArguments)
+      val asciiImageToStringTransformer = new ASCIIImageToStringTransformer
+      val exporters: Seq[TextExporter] = findExporters(groupedArguments)
       controller.importFilterExport(
         importer,
         bufferedImageToNumberImageTransformer,
         filters,
         numberToCharImageTransformer,
+        asciiImageToStringTransformer,
         exporters);
     }
     catch {
