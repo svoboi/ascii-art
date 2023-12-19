@@ -2,7 +2,7 @@ package asciiArtApp.console.views.parsers
 
 import transformers.ASCIIFilters.AdjustBrightnessFilter
 
-class BrightnessParser {
+class BrightnessParser extends Parser[AdjustBrightnessFilter] {
 
   def parse(arguments: Seq[String]): AdjustBrightnessFilter = {
     if (arguments.length != 2) {

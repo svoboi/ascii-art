@@ -3,7 +3,7 @@ package asciiArtApp.console.views.parsers
 import transformers.NumberToCharTransformer
 import transformers.OneGreyscalePixelToCharTransformers.LinearGreyscalePixelToCharTransformer
 
-class CustomTableParser {
+class CustomTableParser extends Parser[NumberToCharTransformer] {
 
   def parse(arguments: Seq[String]): NumberToCharTransformer = {
     if (arguments.length != 2) {

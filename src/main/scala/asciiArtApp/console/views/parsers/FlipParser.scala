@@ -2,7 +2,7 @@ package asciiArtApp.console.views.parsers
 
 import transformers.ASCIIFilters.{Axis, FlipASCIIFilter}
 
-class FlipParser {
+class FlipParser extends Parser[FlipASCIIFilter] {
 
   def parse(arguments: Seq[String]): FlipASCIIFilter = {
     if (arguments.length != 2) {

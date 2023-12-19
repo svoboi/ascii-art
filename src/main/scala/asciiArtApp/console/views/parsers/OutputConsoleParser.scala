@@ -2,7 +2,7 @@ package asciiArtApp.console.views.parsers
 
 import exporters.text.StdOutputTextExporter
 
-class OutputConsoleParser {
+class OutputConsoleParser extends Parser[StdOutputTextExporter] {
 
   def parse(arguments: Seq[String]): StdOutputTextExporter = {
     if (arguments.length != 1) {

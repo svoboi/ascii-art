@@ -2,7 +2,7 @@ package asciiArtApp.console.views.parsers
 
 import importers.imageImporters.{RGBImageImporterFromFile, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
 
-class ImageImporterParser {
+class ImageImporterParser extends Parser[RGBImageImporterFromFile] {
   def parse(arguments: Seq[String]): RGBImageImporterFromFile = {
     if (arguments.length != 2) {
       throw new IllegalArgumentException("Argument '" + arguments.head + "' takes " + 1 + " parameter.")
