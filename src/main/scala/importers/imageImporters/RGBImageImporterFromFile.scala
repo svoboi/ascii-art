@@ -19,9 +19,9 @@ trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
       for (x <- 0 until buffImage.getWidth) {
         val pixelColor: Color = new Color(buffImage.getRGB(x, y))
         val pixel: RGBPixel = new RGBPixel(
-          pixelColor.getRed.toDouble,
-          pixelColor.getGreen.toDouble,
-          pixelColor.getBlue.toDouble
+          pixelColor.getRed,
+          pixelColor.getGreen,
+          pixelColor.getBlue
         )
         pixelLine = pixelLine.appended(pixel)
       }

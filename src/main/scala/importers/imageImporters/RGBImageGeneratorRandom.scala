@@ -13,9 +13,9 @@ class RGBImageGeneratorRandom extends Importer[RGBImage] {
       var pixelLine: List[RGBPixel] = List.empty
       for (x <- 0 until height) {
         val pixel = new RGBPixel(
-          rand.nextDouble() * 255,
-          rand.nextDouble() * 255,
-          rand.nextDouble() * 255
+          rand.nextInt(255),
+          rand.nextInt(255),
+          rand.nextInt(255)
         )
         pixelLine = pixelLine.appended(pixel)
       }
