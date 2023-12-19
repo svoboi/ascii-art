@@ -6,20 +6,17 @@ import scala.io.Source
 
 //source: Martin Drozdik, CTU class OOP, labs
 
-trait TestWithFiles
-{
+trait TestWithFiles {
   val testFolder = "src/test/scala/testFiles/"
 
-  def ensureDeleted(filePath: String): Unit =
-  {
+  def ensureDeleted(filePath: String): Unit = {
     val file = new File(filePath)
     if (file.exists())
       if (!file.delete())
         throw new Exception("Could not delete " + filePath)
   }
 
-  def ensureCreated(filePath: String): Unit =
-  {
+  def ensureCreated(filePath: String): Unit = {
     val file = new File(filePath)
 
     ensureDeleted(filePath)
@@ -30,8 +27,7 @@ trait TestWithFiles
 
   def getTestFile: String = testFolder + UUID.randomUUID().toString + ".txt"
 
-  def assertFileContent(filePath: String, content: String): Unit =
-  {
+  def assertFileContent(filePath: String, content: String): Unit = {
     val source = Source.fromFile(filePath)
     val text = source.mkString
 

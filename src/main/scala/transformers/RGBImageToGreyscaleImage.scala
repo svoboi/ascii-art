@@ -2,7 +2,7 @@ package transformers
 
 import asciiArtApp.models.{GreyScaleImage, RGBImage}
 
-class RGBImageToGreyscaleImage extends Transformer[RGBImage, GreyScaleImage]{
+class RGBImageToGreyscaleImage extends Transformer[RGBImage, GreyScaleImage] {
 
   def transform(rgbImage: RGBImage): GreyScaleImage = {
     var pixelsGS: List[List[Double]] = List.empty

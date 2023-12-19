@@ -3,7 +3,7 @@ package importers.imageImporters
 import asciiArtApp.models.{RGBImage, RGBPixel}
 import importers.Importer
 
-class RGBImageGeneratorRandom extends Importer[RGBImage]{
+class RGBImageGeneratorRandom extends Importer[RGBImage] {
   def importFunc(): RGBImage = {
     val rand = new scala.util.Random
     val width = rand.nextInt(100)
@@ -13,9 +13,9 @@ class RGBImageGeneratorRandom extends Importer[RGBImage]{
       var pixelLine: List[RGBPixel] = List.empty
       for (x <- 0 until height) {
         val pixel = new RGBPixel(
-          rand.nextDouble()*255,
-          rand.nextDouble()*255,
-          rand.nextDouble()*255
+          rand.nextDouble() * 255,
+          rand.nextDouble() * 255,
+          rand.nextDouble() * 255
         )
         pixelLine = pixelLine.appended(pixel)
       }

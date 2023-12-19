@@ -19,7 +19,7 @@ object Main extends App {
   val arguments: List[String] = List("--image", "examples/side-eye-smaller.jpg", "--table", "non-linear", "--brightness", "100", "--output-console")
 
   val consoleView = new ConsoleView(new ConsoleController, new StdOutputTextExporter)
-//  consoleView.run(arguments)
+  //  consoleView.run(arguments)
   consoleView.run(args.toList)
 
 }

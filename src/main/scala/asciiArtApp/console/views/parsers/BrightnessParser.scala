@@ -10,7 +10,7 @@ class BrightnessParser extends Parser[AdjustBrightnessFilter] {
     }
     val intOpt = arguments(1).toIntOption
     if (intOpt.isEmpty) {
-      throw new IllegalArgumentException ("Filter '--brightness' requires a number parameter.")
+      throw new IllegalArgumentException("Filter '--brightness' requires a number parameter.")
     }
     return new AdjustBrightnessFilter(intOpt.get)
   }

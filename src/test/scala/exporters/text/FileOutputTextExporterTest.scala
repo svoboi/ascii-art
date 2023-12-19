@@ -8,9 +8,9 @@ import java.io.File
 //source: Martin Drozdik, CTU class OOP, labs
 
 class FileOutputTextExporterTest extends FunSuite
-  with TestWithFiles{
+  with TestWithFiles {
 
-  test("No file exists"){
+  test("No file exists") {
     val fileName = getTestFile
 
     try {
@@ -29,10 +29,10 @@ class FileOutputTextExporterTest extends FunSuite
     }
   }
 
-  test("File already exists"){
+  test("File already exists") {
     val fileName = getTestFile
 
-    try{
+    try {
       ensureCreated(fileName)
 
       val file = new File(fileName)
@@ -43,7 +43,7 @@ class FileOutputTextExporterTest extends FunSuite
 
       assertFileContent(fileName, "Ahoj")
     }
-    finally{
+    finally {
       ensureDeleted(fileName)
     }
   }

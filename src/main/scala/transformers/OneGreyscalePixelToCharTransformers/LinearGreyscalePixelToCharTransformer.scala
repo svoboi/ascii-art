@@ -7,7 +7,7 @@ class LinearGreyscalePixelToCharTransformer(charactersTable: Array[Char]) extend
 
   override def transform(number: Double): Char = {
     if ((number / boxSize).floor.toInt >= charactersTable.length) {
-      return charactersTable.charAt(charactersTable.length-1)
+      return charactersTable.charAt(charactersTable.length - 1)
     }
     charactersTable.charAt((number / boxSize).floor.toInt)
   }

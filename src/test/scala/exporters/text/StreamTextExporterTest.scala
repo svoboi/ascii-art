@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream
 //source: Martin Drozdik, CTU class OOP, labs
 
 class StreamTextExporterTest extends FunSuite {
-  test("Write"){
+  test("Write") {
     val stream = new ByteArrayOutputStream()
     val exporter = new StreamTextExporter(stream)
 
