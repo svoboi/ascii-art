@@ -1,6 +1,6 @@
 package asciiArtApp.console.views
 
-import asciiArtApp.console.controllers.ConsoleController
+import asciiArtApp.controllers.ConsoleController
 import asciiArtApp.models.RGBImage
 import exporters.text.{StdOutputTextExporter, TextExporter}
 import importers.Importer

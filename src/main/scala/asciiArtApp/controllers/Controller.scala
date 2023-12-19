@@ -1,4 +1,4 @@
-package asciiArtApp.console.controllers
+package asciiArtApp.controllers
 
 import asciiArtApp.models.RGBImage
 import exporters.text.TextExporter
