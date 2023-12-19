@@ -14,6 +14,7 @@ object Main extends App {
   //  example7 : run --image "examples/planet with whitespace.png" --custom-table " .:*O#@" --output-console
   //  example8 : run --image "examples/planet-smaller.png" --custom-table " .:*O#@" --output-console
   //  example9 : run --image-random --custom-table " .:*O#@" --output-console
+  //  example10 : run --image "examples/planet-smaller.xml" --custom-table " .:*O#@" --output-console
 
   val arguments: List[String] = List("--image", "examples/side-eye-smaller.jpg", "--table", "non-linear", "--brightness", "100", "--output-console")
 

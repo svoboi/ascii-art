@@ -1,165 +1,39 @@
 package asciiArtApp.console.views
 
+import asciiArtApp.console.views.parsers._
 import asciiArtApp.controllers.Controller
 import asciiArtApp.models.RGBImage
-import exporters.text.{FileOutputTextExporter, StdOutputTextExporter, TextExporter}
+import exporters.text.TextExporter
 import importers.Importer
-import importers.imageImporters.{RGBImageGeneratorRandom, RGBImageImporterFromJPG, RGBImageImporterFromPNG}
 import transformers.ASCIIFilters._
-import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscalePixelToCharTransformer, LinearGreyscalePixelToCharTransformer}
+import transformers.OneGreyscalePixelToCharTransformers.LinearGreyscalePixelToCharTransformer
 import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
 
-import java.io.File
-
 class ConsoleView(protected val controller: Controller, protected val stdOutputExporter: TextExporter) {
+  val brightnessParser = new BrightnessParser
+  val customTableParser = new CustomTableParser
+  val flipParser = new FlipParser
+  val imageGeneratorParser = new ImageGeneratorParser
+  val imageImporterParser = new ImageImporterParser
+  val invertParser = new InvertParser
+  val outputConsoleParser = new OutputConsoleParser
+  val outputFileParser = new OutputFileParser
+  val tableParser = new TableParser
 
-  val registeredCategories: Map[String, Map[String, Int]] = Map(
-    ("import", Map(
-      ("image-random", 0),
-      ("image", 1))),
-    ("filter", Map(
-      ("brightness", 1),
-      ("flip", 1),
-      ("invert", 0))),
-    ("charTable", Map(
-      ("table", 1),
-      ("custom-table", 1))),
-    ("export", Map(
-      ("output-console", 0),
-      ("output-file", 1)))
-  )
-
-  def checkArgumentListValidity(groupedArguments: List[ArgumentWithStringParameters]): Unit = {
-    val registeredArguments = registeredCategories.values.flatten.toMap
-    for (argument <- groupedArguments) {
-      if (!registeredArguments.contains(argument.name)) {
-        throw new IllegalArgumentException("Argument '" + argument.name + "' is not recognized.")
-      }
-      if (registeredArguments(argument.name) != argument.parameters.length) {
-        throw new IllegalArgumentException("Argument '" + argument.name + "' takes " + registeredArguments(argument.name) + " parameter(s).")
-      }
-    }
-  }
-
-  def groupArguments(arguments: List[String]): List[ArgumentWithStringParameters] = {
-    var argumentsWithParametersList: List[ArgumentWithStringParameters] = List.empty
+  def groupArguments(arguments: List[String]): List[List[String]] = {
+    var groupedArguments: List[List[String]] = List.empty
     var argumentWithParameters: List[String] = List.empty
     for (argument <- arguments) {
       if (argument.startsWith("--")) {
-        if (!argumentWithParameters.isEmpty) {
-          argumentsWithParametersList = argumentsWithParametersList.appended(
-            new ArgumentWithStringParameters(argumentWithParameters.head, argumentWithParameters.tail))
+        if (argumentWithParameters.nonEmpty) {
+          groupedArguments = groupedArguments.appended(argumentWithParameters)
           argumentWithParameters = List.empty
         }
       }
       argumentWithParameters = argumentWithParameters.appended(argument.replace("--", ""))
     }
-    argumentsWithParametersList = argumentsWithParametersList.appended(
-      new ArgumentWithStringParameters(argumentWithParameters.head, argumentWithParameters.tail))
-    return argumentsWithParametersList;
-  }
-
-  def findImporters(groupedArguments: List[ArgumentWithStringParameters]): Importer[RGBImage] = {
-    var importers: List[Importer[RGBImage]] = List.empty
-    for (argument <- groupedArguments) {
-      argument.name match {
-        case "image-random" => importers = importers.appended(new RGBImageGeneratorRandom)
-        case "image" => {
-          if (argument.parameters.head.endsWith("jpg")) {
-            importers = importers.appended(new RGBImageImporterFromJPG(argument.parameters.head))
-          }
-          else if (argument.parameters.head.endsWith("png")) {
-            importers = importers.appended(new RGBImageImporterFromPNG(argument.parameters.head))
-          }
-          else {
-            throw new IllegalArgumentException("Unknown format!")
-          }
-        }
-        case _ => {}
-      }
-    }
-    if (importers.length != 1) {
-      throw new IllegalArgumentException("Application takes exactly one importer argument, either '--image' or '--image-random'.")
-    }
-    importers.head;
-  }
-
-  def findFilters(groupedArguments: List[ArgumentWithStringParameters]): Seq[ASCIIFilter] = {
-    var filters: Seq[ASCIIFilter] = List.empty
-    for (argument <- groupedArguments) {
-      argument.name match {
-        case "brightness" => {
-          try {
-            argument.parameters.head.toInt
-          }
-          catch {
-            case e: NumberFormatException => throw new IllegalArgumentException("Filter '--brightness' requires a number parameter.")
-          }
-          filters = filters.appended(new AdjustBrightnessFilter(argument.parameters.head.toInt))
-        }
-        case "flip" => {
-          val axis = try {
-            Axis.withName(argument.parameters.head)
-          }
-          catch {
-            case e: Exception => throw new IllegalArgumentException("This direction of flip is not defined!")
-          }
-          filters = filters.appended(new FlipASCIIFilter(axis))
-        }
-        case "invert" => filters = filters.appended(new InvertASCIIFilter())
-        case _ => {}
-      }
-    }
-    filters;
-  }
-
-  def findNumberToCharTransformer(groupedArguments: List[ArgumentWithStringParameters]): NumberToCharTransformer = {
-    var numberToCharTransformersList: List[NumberToCharTransformer] = List.empty;
-    for (argument <- groupedArguments) {
-      (argument.name, argument.parameters) match {
-        case ("table", List("bourke-small")) =>
-          numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearGreyscalePixelToCharTransformer(" .:-=+*#%@".toCharArray)
-          )
-        case ("table", List("bourke-standard")) =>
-          numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearGreyscalePixelToCharTransformer(
-              " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
-            ))
-        case ("table", List("non-linear")) =>
-          numberToCharTransformersList = numberToCharTransformersList.appended(
-            new HigherContrastGreyscalePixelToCharTransformer)
-        case ("custom-table", List(table: String)) =>
-          numberToCharTransformersList = numberToCharTransformersList.appended(
-            new LinearGreyscalePixelToCharTransformer(
-              table.toCharArray
-            ))
-        case _ => {}
-      }
-    }
-    if (numberToCharTransformersList.length == 1) {
-      return numberToCharTransformersList.head
-    }
-    if (numberToCharTransformersList.isEmpty) {
-      return new LinearGreyscalePixelToCharTransformer(
-        " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray
-      )
-    }
-    else {
-      throw new IllegalArgumentException("Application takes one or none table arguments, either '--custom-table' or '--table'.")
-    }
-  }
-
-  def findExporters(groupedArguments: List[ArgumentWithStringParameters]): Seq[TextExporter] = {
-    var exporters: Seq[TextExporter] = List.empty
-    for (argument <- groupedArguments) {
-      argument.name match {
-        case "output-console" => exporters = exporters.appended(new StdOutputTextExporter)
-        case "output-file" => exporters = exporters.appended(new FileOutputTextExporter(new File(argument.parameters.head)))
-        case _ => {}
-      }
-    }
-    exporters;
+    groupedArguments = groupedArguments.appended(argumentWithParameters)
+    return groupedArguments;
   }
 
   def showError(message: String): Unit = {
@@ -168,17 +42,52 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
 
   def run(arguments: List[String]): Unit = {
     try {
-      val groupedArguments: List[ArgumentWithStringParameters] = groupArguments(arguments)
-      checkArgumentListValidity(groupedArguments);
-      val importer: Importer[RGBImage] = findImporters(groupedArguments);
+      val groupedArguments: List[List[String]] = groupArguments(arguments)
+      var importers: List[Importer[RGBImage]] = List.empty;
+      var filters: List[ASCIIFilter] = List.empty;
+      var numberToCharTransformers: List[NumberToCharTransformer] = List.empty;
+      var exporters: List[TextExporter] = List.empty;
+
+      for (argument <- groupedArguments) {
+        argument.head match {
+          case "image" =>
+            importers = importers.appended(imageImporterParser.parse(argument));
+          case "image-random" =>
+            importers = importers.appended(imageGeneratorParser.parse(argument));
+          case "table" =>
+            numberToCharTransformers = numberToCharTransformers.appended(tableParser.parse(argument));
+          case "custom-table" =>
+            numberToCharTransformers = numberToCharTransformers.appended(customTableParser.parse(argument));
+          case "brightness" =>
+            filters = filters.appended(brightnessParser.parse(argument));
+          case "flip" =>
+            filters = filters.appended(flipParser.parse(argument));
+          case "invert" =>
+            filters = filters.appended(invertParser.parse(argument));
+          case "output-console" =>
+            exporters = exporters.appended(outputConsoleParser.parse(argument));
+          case "output-file" =>
+            exporters = exporters.appended(outputFileParser.parse(argument));
+          case _ => throw new IllegalArgumentException("Argument '" + argument.head + "' is not recognized.")
+        }
+      }
+
+      if (importers.length != 1) {
+        throw new IllegalArgumentException("Application takes exactly one importer argument, either '--image' or '--image-random'.")
+      }
+      if (numberToCharTransformers.length > 1) {
+        throw new IllegalArgumentException("Application takes one or none table arguments, either '--custom-table' or '--table'.")
+      }
+      if (numberToCharTransformers.isEmpty) {
+        numberToCharTransformers = numberToCharTransformers.appended(new LinearGreyscalePixelToCharTransformer(" .:-=+*#%@".toCharArray))
+      }
+
       val bufferedImageToNumberImageTransformer = new RGBImageToGreyscaleImage;
-      val filters: Seq[ASCIIFilter] = findFilters(groupedArguments)
-      val numberToCharTransformer: NumberToCharTransformer = findNumberToCharTransformer(groupedArguments)
-      val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformer)
+      val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformers.head)
       val asciiImageToStringTransformer = new ASCIIImageToStringTransformer
-      val exporters: Seq[TextExporter] = findExporters(groupedArguments)
+
       controller.importFilterExport(
-        importer,
+        importers.head,
         bufferedImageToNumberImageTransformer,
         filters,
         numberToCharImageTransformer,
