@@ -1,14 +1,13 @@
 package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.ConsoleController
+import asciiArtApp.models.RGBImage
 import exporters.ASCII.ASCIIExporter
 import exporters.text.StdOutputTextExporter
 import importers.Importer
 import org.scalatest.FunSuite
 import transformers.ASCIIFilters.ASCIIFilter
 import transformers.NumberToCharTransformer
-
-import java.awt.image.BufferedImage
 
 class ConsoleViewTest extends FunSuite {
   val consoleView: ConsoleView = new ConsoleView(new ConsoleController, new StdOutputTextExporter)
@@ -45,8 +44,8 @@ class ConsoleViewTest extends FunSuite {
       new ArgumentWithStringParameters("image", List("exampleSMALLER.png")),
       new ArgumentWithStringParameters("invert", List.empty),
     )
-    val importer: Importer[BufferedImage] = consoleView.findImporters(groupedArguments);
-    assert(importer.getClass.getSimpleName == "ImageImporterFromFile")
+    val importer: Importer[RGBImage] = consoleView.findImporters(groupedArguments);
+    assert(importer.getClass.getSimpleName == "RGBImageImporterFromPNG")
   }
 
   test("Too many importers") {
@@ -85,7 +84,7 @@ class ConsoleViewTest extends FunSuite {
       new ArgumentWithStringParameters("invert", List.empty),
     )
     val numberToCharTransformer: NumberToCharTransformer = consoleView.findNumberToCharTransformer(groupedArguments);
-    assert(numberToCharTransformer.getClass.getSimpleName == "LinearGrayscalePixelToCharTransformer")
+    assert(numberToCharTransformer.getClass.getSimpleName == "LinearGreyscalePixelToCharTransformer")
   }
 
   test("Two table arguments") {
