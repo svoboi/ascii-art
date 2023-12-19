@@ -1,17 +1,16 @@
 package importers
 
 import helpers.TestWithImages
-import importers.imageImporters.RGBImageImporterFromJPG
+import importers.imageImporters.RGBImageImporterFromPNG
 import org.scalatest.FunSuite
 
-class RGBImageImporterFromJPGTest extends FunSuite
+class RGBImageImporterFromPNGTest extends FunSuite
   with TestWithImages {
 
-
-  test("Import jpg success") {
+  test("Import png success") {
     val fileName = getTestFileImage
-    createImage(fileName, "jpg")
-    val importer = new RGBImageImporterFromJPG(fileName + "." + "jpg")
+    createImage(fileName, "png")
+    val importer = new RGBImageImporterFromPNG(fileName + "." + "png")
     val rbgImage = importer.importFunc()
     val green = rbgImage.getPixels()(0)(0).green
     val red = rbgImage.getPixels()(0)(0).red
@@ -21,10 +20,10 @@ class RGBImageImporterFromJPGTest extends FunSuite
     assert(rbgImage.getPixels()(0)(0).blue == 0)
   }
 
-  test("Import png failure") {
+  test("Import jpg failure") {
     val fileName = getTestFileImage
-    createImage(fileName, "png")
-    val importer = new RGBImageImporterFromJPG(fileName + "." + "png")
+    createImage(fileName, "jpg")
+    val importer = new RGBImageImporterFromPNG(fileName + "." + "jpg")
     assertThrows[Exception] {
       importer.importFunc()
     }
