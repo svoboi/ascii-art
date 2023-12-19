@@ -2,8 +2,7 @@ package asciiArtApp.console.views
 
 import asciiArtApp.console.controllers.ConsoleController
 import asciiArtApp.models.RGBImage
-import exporters.ASCII.ASCIIExporter
-import exporters.text.StdOutputTextExporter
+import exporters.text.{StdOutputTextExporter, TextExporter}
 import importers.Importer
 import org.scalatest.FunSuite
 import transformers.ASCIIFilters.ASCIIFilter
@@ -103,7 +102,7 @@ class ConsoleViewTest extends FunSuite {
       new ArgumentWithStringParameters("output-file", List("exampleSMALLER.png")),
       new ArgumentWithStringParameters("invert", List.empty),
     )
-    val exporters: Seq[ASCIIExporter] = consoleView.findExporters(groupedArguments);
+    val exporters: Seq[TextExporter] = consoleView.findExporters(groupedArguments);
     assert(exporters.head.getClass.getSimpleName == "StdOutputASCIIExporter")
     assert(exporters.tail.head.getClass.getSimpleName == "FileOutputASCIIExporter")
   }
