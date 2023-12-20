@@ -9,6 +9,14 @@ import transformers.ASCIIFilters._
 import transformers.OneGreyscalePixelToCharTransformers.LinearGreyscalePixelToCharTransformer
 import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
 
+/**
+ * The ConsoleView class manages the interaction between the user input, the application controller,
+ * and the output exporters. It initializes various parsers for different functionalities and
+ * orchestrates the execution based on the parsed command line arguments.
+ *
+ * @param controller        The application controller for managing image processing operations.
+ * @param stdOutputExporter The text exporter for displaying errors on the standard console.
+ */
 class ConsoleView(protected val controller: Controller, protected val stdOutputExporter: TextExporter) {
   val brightnessParser = new BrightnessParser
   val customTableParser = new CustomTableParser
