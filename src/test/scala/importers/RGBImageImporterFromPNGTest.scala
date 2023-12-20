@@ -12,9 +12,6 @@ class RGBImageImporterFromPNGTest extends FunSuite
     createImage(fileName, "png")
     val importer = new RGBImageImporterFromPNG(fileName + ".png")
     val rbgImage = importer.importFunc()
-    val green = rbgImage.getPixels()(0)(0).green
-    val red = rbgImage.getPixels()(0)(0).red
-    val blue = rbgImage.getPixels()(0)(0).blue
     assert(rbgImage.getPixels()(0)(0).green == 0)
     assert(rbgImage.getPixels()(0)(0).red == 0)
     assert(rbgImage.getPixels()(0)(0).blue == 0)

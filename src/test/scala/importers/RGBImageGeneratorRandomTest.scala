@@ -7,7 +7,7 @@ class RGBImageGeneratorRandomTest extends FunSuite {
 
   test("Generate success") {
     val importer = new RGBImageGeneratorRandom
-    val rbgImage = importer.importFunc()
+    importer.importFunc()
   }
 
 }
