@@ -7,7 +7,7 @@ import exporters.text.TextExporter
 import importers.Importer
 import transformers.ASCIIFilters._
 import transformers.OneGreyscalePixelToCharTransformers.LinearGreyscalePixelToCharTransformer
-import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImage}
+import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransformer, NumberToCharTransformer, RGBImageToGreyscaleImageTransformer}
 
 /**
  * The ConsoleView class manages the interaction between the user input, the application controller,
@@ -28,6 +28,12 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
   val outputFileParser = new OutputFileParser
   val tableParser = new TableParser
 
+  /**
+   * Groups command line arguments into lists based on the '--' prefix.
+   *
+   * @param arguments The list of command line arguments.
+   * @return A list of lists where each inner list represents grouped arguments.
+   */
   def groupArguments(arguments: List[String]): List[List[String]] = {
     var groupedArguments: List[List[String]] = List.empty
     var argumentWithParameters: List[String] = List.empty
@@ -44,10 +50,20 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
     return groupedArguments;
   }
 
+  /**
+   * Displays an error message using the standard output exporter.
+   *
+   * @param message The error message to be displayed.
+   */
   protected def showError(message: String): Unit = {
     stdOutputExporter.exportFunc(message + "\n");
   }
 
+  /**
+   * Goes through the execution of the application based on the parsed command line arguments.
+   *
+   * @param arguments The command line arguments provided by the user.
+   */
   def run(arguments: List[String]): Unit = {
     try {
       val groupedArguments: List[List[String]] = groupArguments(arguments)
@@ -90,7 +106,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
         numberToCharTransformers = numberToCharTransformers.appended(new LinearGreyscalePixelToCharTransformer(" .:-=+*#%@".toCharArray))
       }
 
-      val bufferedImageToNumberImageTransformer = new RGBImageToGreyscaleImage;
+      val bufferedImageToNumberImageTransformer = new RGBImageToGreyscaleImageTransformer;
       val numberToCharImageTransformer = new GreyscaleToASCIIImageTransformer(numberToCharTransformers.head)
       val asciiImageToStringTransformer = new ASCIIImageToStringTransformer
 

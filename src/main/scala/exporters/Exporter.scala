@@ -1,7 +1,11 @@
 package exporters
 
-//source: Martin Drozdik, CTU class OOP, labs
-
+/**
+ * The Exporter trait for exporting T content.
+ *
+ * @tparam T The type of content to be exported.
+ * @author Martin Drozdik, course OOP on CTU, https://courses.fit.cvut.cz/BI-OOP
+ */
 trait Exporter[T] {
   /**
    * Exports something somewhere

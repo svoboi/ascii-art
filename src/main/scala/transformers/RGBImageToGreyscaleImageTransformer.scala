@@ -2,8 +2,17 @@ package transformers
 
 import asciiArtApp.models.{GreyScaleImage, RGBImage}
 
-class RGBImageToGreyscaleImage extends Transformer[RGBImage, GreyScaleImage] {
+/**
+ * The RGBImageToGreyscaleImageTransformer class implements the Transformer trait to convert an RGBImage to a GreyscaleImage.
+ */
+class RGBImageToGreyscaleImageTransformer extends Transformer[RGBImage, GreyScaleImage] {
 
+  /**
+   * Transforms an RGBImage to a GreyscaleImage using a weighted average of color components.
+   *
+   * @param rgbImage The input RGBImage.
+   * @return The transformed GreyscaleImage.
+   */
   override def transform(rgbImage: RGBImage): GreyScaleImage = {
     var pixelsGS: List[List[Double]] = List.empty
     for (y <- rgbImage.getPixels().indices) {

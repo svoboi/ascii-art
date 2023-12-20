@@ -3,7 +3,17 @@ package importers.imageImporters
 import asciiArtApp.models.{RGBImage, RGBPixel}
 import importers.Importer
 
+/**
+ * The RGBImageGeneratorRandom class implements the Importer trait to generate a random RGBImage.
+ * @tparam RGBImage The type of object to be imported.
+ */
 class RGBImageGeneratorRandom extends Importer[RGBImage] {
+
+  /**
+   * Generates a random RGBImage with pixels containing random RGB values.
+   *
+   * @return A randomly generated RGBImage.
+   */
   override def importFunc(): RGBImage = {
     val rand = new scala.util.Random
     val width = rand.nextInt(100)

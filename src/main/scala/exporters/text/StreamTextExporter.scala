@@ -2,11 +2,21 @@ package exporters.text
 
 import java.io.OutputStream
 
-//source: Martin Drozdik, CTU class OOP, labs
-
+/**
+ * The StreamTextExporter class implements the TextExporter trait to export text-based content to an OutputStream.
+ *
+ * @param outputStream The OutputStream where the text content will be exported.
+ * @author Martin Drozdik, course OOP on CTU, https://courses.fit.cvut.cz/BI-OOP
+ */
 class StreamTextExporter(outputStream: OutputStream) extends TextExporter {
   private var closed = false
 
+  /**
+   * Exports the provided text to the specified OutputStream.
+   *
+   * @param text The text content to be exported.
+   * @throws IOException If an I/O error occurs during the export process.
+   */
   protected def exportToStream(text: String): Unit = {
 
     if (closed)
@@ -16,6 +26,9 @@ class StreamTextExporter(outputStream: OutputStream) extends TextExporter {
     outputStream.flush()
   }
 
+  /**
+   * Closes the OutputStream associated with this exporter.
+   */
   def close(): Unit = {
     if (closed)
       return
@@ -24,5 +37,10 @@ class StreamTextExporter(outputStream: OutputStream) extends TextExporter {
     closed = true
   }
 
+  /**
+   * Overrides the exportFunc method from the TextExporter trait to delegate the export to the OutputStream.
+   *
+   * @param item The text content to be exported.
+   */
   override def exportFunc(item: String): Unit = exportToStream(item)
 }

@@ -16,10 +16,7 @@ object Main extends App {
   //  example9 : run --image-random --custom-table " .:*O#@" --output-console
   //  example10 : run --image "examples/planet-smaller.xml" --custom-table " .:*O#@" --output-console
 
-  val arguments: List[String] = List("--image", "examples/side-eye-smaller.jpg", "--table", "non-linear", "--brightness", "100", "--output-console")
-
   val consoleView = new ConsoleView(new ConsoleController, new StdOutputTextExporter)
-  //  consoleView.run(arguments)
   consoleView.run(args.toList)
 
 }

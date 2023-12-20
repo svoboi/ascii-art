@@ -8,10 +8,22 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+/**
+ * The RGBImageImporterFromFile trait extends the ImporterFromSource trait for importing RGBImage from a file.
+ *
+ * @tparam String The type of source, representing the file path.
+ * @tparam RGBImage The type of content to be imported.
+ */
 trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
   protected val source: String
   protected val allowedExtension: String
 
+  /**
+   * Transforms a BufferedImage into an RGBImage.
+   *
+   * @param buffImage The BufferedImage to be transformed.
+   * @return An RGBImage representing the content of the BufferedImage pixels.
+   */
   protected def transformBuffImageToRGBImage(buffImage: BufferedImage): RGBImage = {
     var pixels: List[List[RGBPixel]] = List.empty
     for (y <- 0 until buffImage.getHeight) {
@@ -30,6 +42,11 @@ trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
     new RGBImage(pixels)
   }
 
+  /**
+   * Retrieves the file extension from the source file path.
+   *
+   * @return The file extension of the source file.
+   */
   protected def getExtension(): String = {
     var extension = ""
     val i = source.lastIndexOf('.')
@@ -39,6 +56,12 @@ trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
     extension
   }
 
+  /**
+   * Imports an RGBImage from the specified source file.
+   *
+   * @return The imported RGBImage.
+   * @throws IllegalArgumentException If the file extension is not allowed.
+   */
   override def importFunc(): RGBImage = {
     if (getExtension() != allowedExtension) {
       throw new IllegalArgumentException("Unknown format.")
