@@ -14,8 +14,8 @@ class GreyscaleToASCIIImageTransformerTest extends FunSuite
     assert(ASCII.getPixels()(1)(1) == ' ')
   }
 
-  test("Success with 150") {
-    val greyscaleImage = generateGreyscaleImage(3, 3, 150)
+  test("Success with 150,5") {
+    val greyscaleImage = generateGreyscaleImage(3, 3, 150.5)
     val ASCII = transformer.transform(greyscaleImage)
     assert(ASCII.getPixels()(1)(1) == '+')
   }

@@ -5,6 +5,7 @@ import org.scalatest.FunSuite
 
 class ASCIIImageToStringTransformerTest extends FunSuite {
   val transformer = new ASCIIImageToStringTransformer
+
   test("Success") {
     val art: ASCIIImage = new ASCIIImage(Seq(Seq('a'), Seq('d', 'e')))
     val string = transformer.transform(art)
