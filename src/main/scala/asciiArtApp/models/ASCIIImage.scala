@@ -1,7 +1,7 @@
 package asciiArtApp.models
 
-class ASCIIImage(protected val pixels: Seq[Seq[Char]]) extends Image[Char] {
-  def getPixels(): Seq[Seq[Char]] = {
+class ASCIIImage(override protected val pixels: Seq[Seq[Char]]) extends Image[Char] {
+  override def getPixels(): Seq[Seq[Char]] = {
     pixels
   }
 }

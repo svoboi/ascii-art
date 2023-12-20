@@ -4,7 +4,7 @@ import asciiArtApp.models.{RGBImage, RGBPixel}
 import importers.Importer
 
 class RGBImageGeneratorRandom extends Importer[RGBImage] {
-  def importFunc(): RGBImage = {
+  override def importFunc(): RGBImage = {
     val rand = new scala.util.Random
     val width = rand.nextInt(100)
     val height = rand.nextInt(100)

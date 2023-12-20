@@ -8,7 +8,7 @@ import transformers.{ASCIIImageToStringTransformer, GreyscaleToASCIIImageTransfo
 
 class ConsoleController() extends Controller {
 
-  def importFilterExport(
+  override def importFilterExport(
                           importer: Importer[RGBImage],
                           rgbImageToNumberImageTransformer: RGBImageToGreyscaleImage,
                           filters: Seq[ASCIIFilter],

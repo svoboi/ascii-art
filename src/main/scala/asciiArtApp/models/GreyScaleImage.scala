@@ -1,7 +1,7 @@
 package asciiArtApp.models
 
-class GreyScaleImage(protected val pixels: Seq[Seq[Double]]) extends Image[Double] {
-  def getPixels(): Seq[Seq[Double]] = {
+class GreyScaleImage(override protected val pixels: Seq[Seq[Double]]) extends Image[Double] {
+  override def getPixels(): Seq[Seq[Double]] = {
     pixels
   }
 }

@@ -5,7 +5,7 @@ import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscale
 
 class TableParser extends Parser[NumberToCharTransformer] {
 
-  def parse(arguments: Seq[String]): NumberToCharTransformer = {
+  override def parse(arguments: Seq[String]): NumberToCharTransformer = {
     if (arguments.length != 2) {
       throw new IllegalArgumentException("Argument '" + arguments.head + "' takes " + 1 + " parameter.")
     }

@@ -4,7 +4,7 @@ import asciiArtApp.models.{GreyScaleImage, RGBImage}
 
 class RGBImageToGreyscaleImage extends Transformer[RGBImage, GreyScaleImage] {
 
-  def transform(rgbImage: RGBImage): GreyScaleImage = {
+  override def transform(rgbImage: RGBImage): GreyScaleImage = {
     var pixelsGS: List[List[Double]] = List.empty
     for (y <- rgbImage.getPixels().indices) {
       var pixelLineGS: List[Double] = List.empty

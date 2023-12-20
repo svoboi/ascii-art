@@ -4,7 +4,7 @@ import transformers.ASCIIFilters.{Axis, FlipASCIIFilter}
 
 class FlipParser extends Parser[FlipASCIIFilter] {
 
-  def parse(arguments: Seq[String]): FlipASCIIFilter = {
+  override def parse(arguments: Seq[String]): FlipASCIIFilter = {
     if (arguments.length != 2) {
       throw new IllegalArgumentException("Argument '" + arguments.head + "' takes " + 1 + " parameter.")
     }

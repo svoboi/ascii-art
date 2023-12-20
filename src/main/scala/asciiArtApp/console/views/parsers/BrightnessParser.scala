@@ -4,7 +4,7 @@ import transformers.ASCIIFilters.AdjustBrightnessFilter
 
 class BrightnessParser extends Parser[AdjustBrightnessFilter] {
 
-  def parse(arguments: Seq[String]): AdjustBrightnessFilter = {
+  override def parse(arguments: Seq[String]): AdjustBrightnessFilter = {
     if (arguments.length != 2) {
       throw new IllegalArgumentException("Argument '" + arguments.head + "' takes " + 1 + " parameter.")
     }
