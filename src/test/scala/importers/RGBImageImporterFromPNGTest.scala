@@ -10,7 +10,7 @@ class RGBImageImporterFromPNGTest extends FunSuite
   test("Import png success") {
     val fileName = getTestFileImage
     createImage(fileName, "png")
-    val importer = new RGBImageImporterFromPNG(fileName + "." + "png")
+    val importer = new RGBImageImporterFromPNG(fileName + ".png")
     val rbgImage = importer.importFunc()
     val green = rbgImage.getPixels()(0)(0).green
     val red = rbgImage.getPixels()(0)(0).red
@@ -18,14 +18,16 @@ class RGBImageImporterFromPNGTest extends FunSuite
     assert(rbgImage.getPixels()(0)(0).green == 0)
     assert(rbgImage.getPixels()(0)(0).red == 0)
     assert(rbgImage.getPixels()(0)(0).blue == 0)
+    ensureDeleted(fileName + ".png")
   }
 
   test("Import jpg failure") {
     val fileName = getTestFileImage
     createImage(fileName, "jpg")
-    val importer = new RGBImageImporterFromPNG(fileName + "." + "jpg")
+    val importer = new RGBImageImporterFromPNG(fileName + ".jpg")
     assertThrows[Exception] {
       importer.importFunc()
     }
+    ensureDeleted(fileName + ".jpg")
   }
 }
