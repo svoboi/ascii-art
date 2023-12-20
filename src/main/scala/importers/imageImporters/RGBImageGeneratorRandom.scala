@@ -5,6 +5,7 @@ import importers.Importer
 
 /**
  * The RGBImageGeneratorRandom class implements the Importer trait to generate a random RGBImage.
+ *
  * @tparam RGBImage The type of object to be imported.
  */
 class RGBImageGeneratorRandom extends Importer[RGBImage] {

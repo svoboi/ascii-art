@@ -17,7 +17,7 @@ class CustomTableParser extends Parser[NumberToCharTransformer] {
    * @param arguments The sequence of command line arguments.
    * @return An NumberToCharTransformer instance based on the parsed arguments.
    * @throws NumberToCharTransformer If the number of arguments is incorrect or if
-   *                                  the '--custom-table' parameter is followed by an empty table.
+   *                                 the '--custom-table' parameter is followed by an empty table.
    */
   override def parse(arguments: Seq[String]): NumberToCharTransformer = {
     if (arguments.length != 2) {

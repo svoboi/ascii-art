@@ -31,7 +31,7 @@ class ConsoleController() extends Controller {
                                    numberToCharImageTransformer: GreyscaleToASCIIImageTransformer,
                                    asciiImageToStringTransformer: ASCIIImageToStringTransformer,
                                    exporters: Seq[TextExporter]
-                        ): Unit = {
+                                 ): Unit = {
     val image = importer.importFunc();
     var numberImage = rgbImageToGreyscaleImageTransformer.transform(image);
     for (filter <- filters) {

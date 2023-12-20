@@ -11,7 +11,7 @@ import javax.imageio.ImageIO
 /**
  * The RGBImageImporterFromFile trait extends the ImporterFromSource trait for importing RGBImage from a file.
  *
- * @tparam String The type of source, representing the file path.
+ * @tparam String   The type of source, representing the file path.
  * @tparam RGBImage The type of content to be imported.
  */
 trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {

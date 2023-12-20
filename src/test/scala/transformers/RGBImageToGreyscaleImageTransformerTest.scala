@@ -3,8 +3,8 @@ package transformers
 import asciiArtApp.models.{RGBImage, RGBPixel}
 import org.scalatest.FunSuite
 
-class RGBImageToGreyscaleImageTest extends FunSuite {
-  val transformer = new RGBImageToGreyscaleImage
+class RGBImageToGreyscaleImageTransformerTest extends FunSuite {
+  val transformer = new RGBImageToGreyscaleImageTransformer
 
   def generateRGBImage(height: Int, width: Int, pixel: RGBPixel): RGBImage = {
     var pixels: List[List[RGBPixel]] = List.empty

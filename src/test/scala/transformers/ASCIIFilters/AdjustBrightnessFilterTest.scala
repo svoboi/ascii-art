@@ -4,7 +4,7 @@ import helpers.TestWithImages
 import org.scalatest.FunSuite
 
 class AdjustBrightnessFilterTest extends FunSuite
-with TestWithImages {
+  with TestWithImages {
 
   test("Adjust +20") {
     val brightnessFilter = new AdjustBrightnessFilter(+20)
