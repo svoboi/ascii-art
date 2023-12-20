@@ -1,5 +1,7 @@
 package helpers
 
+import asciiArtApp.models.GreyScaleImage
+
 import java.awt.image.BufferedImage
 import java.io.File
 import java.util.UUID
@@ -18,7 +20,24 @@ trait TestWithImages extends TestWithFiles {
     val file = new File(filePath + "." + extension)
     ensureCreated(filePath + "." + extension)
     ImageIO.write(bufferedImage, extension, file)
+  }
 
+  def generateGreyscaleImage(height: Int, width: Int, filler: Double): GreyScaleImage = {
+    var pixels: List[List[Double]] = List.empty
+    for (y <- 0 until height) {
+      var pixelLine: List[Double] = List.empty
+      for (x <- 0 until width) {
+        pixelLine = pixelLine.appended(filler)
+      }
+      pixels = pixels.appended(pixelLine)
+    }
+    new GreyScaleImage(pixels)
+  }
+
+  def greyscaleImageWithGivenPixelUpdated(target: GreyScaleImage, height: Int, width: Int, filler: Double): GreyScaleImage = {
+    val pixels = target.getPixels().toArray.map((a) => a.toArray);
+    pixels(height)(width) = filler
+    new GreyScaleImage(pixels.toSeq.map((a) => a.toSeq))
   }
 
 }
