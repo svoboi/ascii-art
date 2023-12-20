@@ -16,6 +16,7 @@ class ConsoleView(protected val controller: Controller, protected val stdOutputE
   val imageGeneratorParser = new ImageGeneratorParser
   val imageImporterParser = new ImageImporterParser
   val invertParser = new InvertParser
+  val outputConsoleParser = new OutputConsoleParser
   val outputFileParser = new OutputFileParser
   val tableParser = new TableParser
 
