@@ -4,6 +4,9 @@ import asciiArtApp.models.GreyScaleImage
 
 class AdjustBrightnessFilter(amount: Int) extends ASCIIFilter {
   def brightnessChange(pixel: Double): Double = {
+    if (pixel > 255 || pixel < 0) {
+      throw new IllegalArgumentException("Pixel needs to be between 0 and 255.")
+    }
     if (pixel - amount > 255.0) {
       return 255
     }
