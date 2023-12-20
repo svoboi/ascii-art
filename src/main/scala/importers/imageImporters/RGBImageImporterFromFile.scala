@@ -68,6 +68,9 @@ trait RGBImageImporterFromFile extends ImporterFromSource[String, RGBImage] {
     }
     val file = new File(source)
     val buffImage = ImageIO.read(file)
+    if (buffImage == null) {
+      throw new IllegalArgumentException("Unable to read file.")
+    }
     transformBuffImageToRGBImage(buffImage)
   }
 

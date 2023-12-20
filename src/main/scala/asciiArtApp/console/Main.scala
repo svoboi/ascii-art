@@ -12,7 +12,7 @@ object Main extends App {
   //  example5 : run --image "examples/tiger.png" --table bourke-standard --output-file examples/tiger.txt --brightness -20
   //  example6 : run --image "examples/tiger.png" --table non-linear --output-file examples/tiger-nonlinear.txt --brightness -20
   //  example7 : run --image "examples/planet with whitespace.png" --custom-table " .:*O#@" --output-console
-  //  example8 : run --image "examples/planet-smaller.png" --custom-table " .:*O#@" --output-console
+  //  example8 : run --image "examples/txtrenamedtopng.png" --custom-table " .:*O#@" --output-console
   //  example9 : run --image-random --custom-table " .:*O#@" --output-console
   //  example10 : run --image "examples/planet-smaller.xml" --custom-table " .:*O#@" --output-console
 
