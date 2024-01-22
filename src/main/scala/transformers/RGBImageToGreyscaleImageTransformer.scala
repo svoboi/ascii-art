@@ -19,6 +19,7 @@ class RGBImageToGreyscaleImageTransformer extends Transformer[RGBImage, GreyScal
       var pixelLineGS: List[Double] = List.empty
       val pixelLineRGB = rgbImage.getPixels()(y)
       for (x <- pixelLineRGB.indices) {
+        // https://www.tutorialspoint.com/dip/grayscale_to_rgb_conversion.htm
         val pixel: Double = 255 - (pixelLineRGB(x).red * 0.3 + pixelLineRGB(x).blue * 0.59 + pixelLineRGB(x).green * 0.11)
         pixelLineGS = pixelLineGS.appended(pixel)
       }

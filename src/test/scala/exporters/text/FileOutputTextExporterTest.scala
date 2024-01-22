@@ -5,7 +5,9 @@ import org.scalatest.FunSuite
 
 import java.io.File
 
-//source: Martin Drozdik, CTU class OOP, labs
+/**
+ * @author Martin Drozdik, course OOP on CTU, https://courses.fit.cvut.cz/BI-OOP
+ */
 
 class FileOutputTextExporterTest extends FunSuite
   with TestWithFiles {

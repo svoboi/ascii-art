@@ -4,7 +4,9 @@ import org.scalatest.FunSuite
 
 import java.io.ByteArrayOutputStream
 
-//source: Martin Drozdik, CTU class OOP, labs
+/**
+ * @author Martin Drozdik, course OOP on CTU, https://courses.fit.cvut.cz/BI-OOP
+ */
 
 class StreamTextExporterTest extends FunSuite {
   test("Write") {
