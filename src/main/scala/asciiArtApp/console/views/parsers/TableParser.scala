@@ -6,6 +6,7 @@ import transformers.OneGreyscalePixelToCharTransformers.{HigherContrastGreyscale
 /**
  * Parser for the '--table' argument, responsible for parsing command line arguments
  * and constructing an NumberToCharTransformer instance.
+ * bourke-small and bourke-standard tables are creation of Paul Borke: http://www.paulbourke.net/dataformats/asciiart/
  *
  * @tparam NumberToCharTransformer The type of argument to be parsed.
  */
